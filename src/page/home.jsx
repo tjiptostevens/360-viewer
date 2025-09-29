@@ -26,7 +26,9 @@ const Home = () => {
           style={{ fontSize: '14px' }} to="/gallery">Gallery</Link>
         <div className="w-[15px]"></div>
       </nav>
-      <Outlet />
+      <div className="w-full h-full">
+        <Outlet />
+      </div>
     </div>
   );
 }
