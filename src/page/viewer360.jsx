@@ -16,24 +16,51 @@ export default function Viewer360() {
         container,
         panorama: "/assets/img/204.jpg", // ganti dengan path gambar kamu
         plugins: [
-          [MarkersPlugin, {
-            markers: [
-              {
-                id: "marker-1",
-                longitude: 0,
-                latitude: 0,
-                image: "/assets/marker.png",
-                width: 32,
-                height: 32,
-                tooltip: "Ruang 204",
-              }
-            ]
-          }]
+          [MarkersPlugin, {}]
         ]
       });
 
-      viewer.once("ready", () => {
+      const markersPlugin = viewer.getPlugin(MarkersPlugin);
+
+
+      viewer.addEventListener("ready", () => {
         console.log("✅ Viewer berhasil dimuat");
+        markersPlugin.addMarker({
+          id: "to-lobby",
+          position: { yaw: 0.2, pitch: 0.1 },
+          image: "/assets/marker.png",
+          size: { width: 32, height: 32 },
+          tooltip: "Pergi ke Lobby",
+        });
+
+        markersPlugin.addMarker({
+          id: "to-classroom",
+          position: { yaw: -0.5, pitch: 0.15 },
+          image: "/assets/marker.png",
+          size: { width: 32, height: 32 },
+          tooltip: "Pergi ke Ruang Kelas",
+        });
+
+        markersPlugin.addMarker({
+          id: "to-library",
+          position: { yaw: 1.0, pitch: -0.1 },
+          image: "/assets/marker.png",
+          size: { width: 32, height: 32 },
+          tooltip: "Pergi ke Perpustakaan",
+        });
+      });
+      // Event klik marker
+      markersPlugin.addEventListener("select-marker", (e) => {
+        const marker = e.marker;
+        console.log("👉 Marker diklik:", marker.id);
+
+        if (marker.id === "to-lobby") {
+          alert("Pindah ke Lobby");
+        } else if (marker.id === "to-classroom") {
+          alert("Pindah ke Ruang Kelas");
+        } else if (marker.id === "to-library") {
+          alert("Pindah ke Perpustakaan");
+        }
       });
 
       return () => viewer.destroy();
